@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Campaign } from './campaign.entity';
 
+
 @Entity('messages')
 export class Message {
   @PrimaryGeneratedColumn()
@@ -20,6 +21,9 @@ export class Message {
 
   @Column({ type: 'time' })
   process_hour: string;
+
+  @Column({ type: 'int'})
+  campaign_id: number;
 
   @ManyToOne(
     () =>Campaign,

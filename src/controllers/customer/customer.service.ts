@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from 'src/entities/customer.entity';
 import { Repository } from 'typeorm';
+import { CreateCustomerDto } from './dto/create-customer.dto';
 
 @Injectable()
 export class CustomerService {
@@ -9,31 +10,52 @@ export class CustomerService {
         @InjectRepository(Customer)
         private customerRepository: Repository<Customer>,
       ) {}
-    
-      // Crear un nuevo cliente
-      async create(customerData: Partial<Customer>): Promise<Customer> {
-        const customer = this.customerRepository.create(customerData);
-        return this.customerRepository.save(customer);
+  
+      async findAll() {
+        const customers = await this.customerRepository.find();
+
+        const body = {
+          message: '',
+          statusCode: 200,
+          customers
+        }
+        return body;
       }
-    
-      // Obtener todos los clientes
-      async findAll(): Promise<Customer[]> {
-        return this.customerRepository.find({ relations: ['users'] });
+
+      async findOne(id: number){
+        const customer = await this.customerRepository.findOne({ where: { id } });
+
+        const body = {
+          message: '',
+          statusCode: 200,
+          customer
+        }
+        return body;
       }
-    
-      // Obtener un cliente por ID
-      async findOne(id: number): Promise<Customer> {
-        return this.customerRepository.findOne({ where: { id }, relations: ['users'] });
+
+      async create(customerData: CreateCustomerDto){
+        const customer =  await this.customerRepository.create(customerData);
+        const resp =  await this.customerRepository.save(customer);
+        
+        const body = {
+          message: '',
+          statusCode: 200,
+          customer: resp
+        }
+        return body;
       }
-    
-      // Actualizar un cliente
-      async update(id: number, customerData: Partial<Customer>): Promise<Customer> {
+      
+      async update(id: number, customerData: CreateCustomerDto){
         await this.customerRepository.update(id, customerData);
-        return this.findOne(id); // Retorna el cliente actualizado
+        return this.findOne(id);
       }
     
-      // Eliminar un cliente
-      async remove(id: number): Promise<void> {
-        await this.customerRepository.delete(id);
+      async remove(id: number) {
+         await this.customerRepository.delete(id);
+        const body = {
+          message: '',
+          statusCode: 200
+        }
+        return body;
       }
 }

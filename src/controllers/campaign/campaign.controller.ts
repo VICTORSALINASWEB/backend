@@ -1,5 +1,8 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { CampaignService } from './campaign.service';
+import { Campaign } from 'src/entities/campaign.entity';
+import { CreateCampaignDto } from './dto/create-campaign.dto';
+import { UpdateCampaignDto } from './dto/update-campaign.dto';
 
 @Controller('campaign')
 export class CampaignController {
@@ -9,38 +12,29 @@ export class CampaignController {
   async getAllCampaign(
     @Query('fechaInicio') fechaInicio: string,
     @Query('fechaFin') fechaFin: string,
-  ) {
+  ){
     return this.campaignsService.findByDateRange(fechaInicio, fechaFin);
   }
 
   @Post()
-  async createCampaign(@Body() data: any) {
-    return this.campaignsService.createCampaign(data);
+  async createCampaign(@Body() data: CreateCampaignDto ) {
+    return this.campaignsService.create(data);
   }
  
   
   @Get(':id')
-  getUserById(@Param ('id',ParseIntPipe ) id: number){
+  getCampaignById(@Param ('id',ParseIntPipe ) id: number){
       
-      return  null;
+      return  this.campaignsService.findOne(id);
   }
  
   @Patch(':id')
-  updateUser(@Param ('id',ParseIntPipe ) id: number,@Body() body:any){
-      return {
-          ok: true,
-          method: 'Patch',
-          id,
-          body
-      }
+  updateCampaign(@Param ('id',ParseIntPipe ) id: number,@Body() body: UpdateCampaignDto){
+      return this.campaignsService.update(id,body);
   }
 
   @Delete(':id')
-  deleteUser(@Param ('id',ParseIntPipe ) id: number){
-      return {
-          ok: true,
-          method: 'Delete',
-          id
-      }
+  deleteCampaign(@Param ('id',ParseIntPipe ) id: number){
+      return  this.campaignsService.remove(id)
   }
 }

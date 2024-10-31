@@ -1,44 +1,39 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { CustomerService } from './customer.service';
+import { CreateCustomerDto } from './dto/create-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 @Controller('customer')
 export class CustomerController {
 
+    constructor(private readonly customerService: CustomerService) {}
+
     @Get()
-    getAllUsers(){
-        return null;
+    async getAllUsers(){
+        return  await this.customerService.findAll();
     }
     
     @Get(':id')
-    getUserById(@Param ('id',ParseIntPipe ) id: number){
-        
-        return  null;
+    async getUserById(@Param ('id',ParseIntPipe ) id: number) {
+     return  await this.customerService.findOne(id);
+       
     }
   
     @Post()
-    createUser(@Body() body:any){
-        return {
-            ok: true,
-            method: 'POST',
-            body
-        }
+    async createUser(@Body() dataBody:CreateCustomerDto){
+      return  await this.customerService.create(dataBody);
+
     }
     
     @Patch(':id')
-    updateUser(@Param ('id',ParseIntPipe ) id: number,@Body() body:any){
-        return {
-            ok: true,
-            method: 'Patch',
-            id,
-            body
-        }
+    async updateUser(@Param ('id',ParseIntPipe ) id: number,@Body() dataBody: UpdateCustomerDto){
+        return await this.customerService.update(id, dataBody);
+
     }
   
     @Delete(':id')
-    deleteUser(@Param ('id',ParseIntPipe ) id: number){
-        return {
-            ok: true,
-            method: 'Delete',
-            id
-        }
+    async deleteUser(@Param ('id',ParseIntPipe ) id: number){
+       return this.customerService.remove(id);
+
     }
 }

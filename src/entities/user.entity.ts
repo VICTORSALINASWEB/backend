@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
-import { Customer } from './customer.entity';
+import { Customer } from './customer.entity'; 
 import { Campaign } from './campaign.entity';
 
 @Entity('users')
@@ -9,6 +9,9 @@ export class User {
 
   @Column({ type: 'varchar', length: 100 })
   username: string;
+  
+  @Column({ type: 'int'})
+  customer_id: number;
 
   @Column({ type: 'boolean',default: true })
   status: boolean;

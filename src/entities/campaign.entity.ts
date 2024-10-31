@@ -19,11 +19,14 @@ export class Campaign {
   @Column({ type: 'int', default: 1 }) // 1: pendiente
   process_status: number;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 255})
   phone_list: string;
 
   @Column({ type: 'text' })
   message_text: string;
+
+  @Column({ type: 'int'})
+  user_id: number;
 
   @ManyToOne(
     () =>User,
