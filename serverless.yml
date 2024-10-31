@@ -1,0 +1,24 @@
+service: marketing-campaign-backend
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+functions:
+  api:
+    handler: dist/main.handler
+    events:
+      - http:
+          path: campaigns
+          method: post
+      - http:
+          path: campaigns
+          method: get
+      - http:
+          path: campaigns/{id}/messages
+          method: get
