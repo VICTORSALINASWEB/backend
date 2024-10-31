@@ -8,27 +8,22 @@ import { Between, Repository } from 'typeorm';
 export class CampaignService {
   constructor(
     @InjectRepository(Campaign)
-    private campaignsRepository: Repository<Campaign>,
-    @InjectRepository(Message)
-    private messagesRepository: Repository<Message>,
+    private campaignsRepository: Repository<Campaign>
   ) {}
 
   async findByDateRange(fechaInicio: string, fechaFin: string) {
-    // Validar formato de fecha
     const startDate = new Date(fechaInicio);
     const endDate = new Date(fechaFin);
 
-    // Comprobar si las fechas son válidas
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
       throw new BadRequestException('Las fechas proporcionadas no son válidas.');
     }
 
-    // Comprobar si la fecha de inicio es mayor que la fecha de fin
     if (startDate > endDate) {
       throw new BadRequestException('La fecha de inicio no puede ser mayor que la fecha de fin.');
     }
 
-     const resp = await this.campaignsRepository.find({
+    const resp = await this.campaignsRepository.find({
       where: { process_date: Between(new Date(fechaInicio), new Date(fechaFin)) },
       relations: ['messages'],
     });
@@ -41,14 +36,5 @@ export class CampaignService {
     return this.campaignsRepository.save(campaign);
   }
 
-  async getCampaignMessages(campaignId: number) {
-    const message = await this.messagesRepository.find({
-      where: { campaign: { id: campaignId } },
-    }); 
-    if (message.length===0) {
-      throw new BadRequestException('No encontrado');
-    }
-
-    return message
-  }
+  
 }
