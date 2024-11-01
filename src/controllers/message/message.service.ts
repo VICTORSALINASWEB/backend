@@ -56,18 +56,6 @@ export class MessageService {
     }
     return body;
   }
-
-  async findOne(id: number) {
-    const aMessage = await this.messagesRepository.findOne({ where: { id }});
-    
-    const body = {
-      message: '',
-      statusCode: 200,
-      aMessage
-    }
-    return body;
-  }
-
   async update(id: number, messageData: UpdateMessageDto) {
     
     const message = await this.messagesRepository.findOne({ where: { id } });
@@ -99,6 +87,18 @@ export class MessageService {
 
   async remove(id: number){
     await this.messagesRepository.delete(id);
+    const body = {
+      message: '',
+      statusCode: 200
+    }
+    return body;
+  }
+
+  async updateOrdersByUserId(campaign_id: number) {
+     await this.messagesRepository.update(
+      { campaign_id },
+      { shipping_status: 2 }
+    );
     const body = {
       message: '',
       statusCode: 200

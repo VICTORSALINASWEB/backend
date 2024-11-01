@@ -6,18 +6,14 @@ import { UpdateMessageDto } from './dto/update-message.dto';
 @Controller('message')
 export class MessageController {
     constructor(private readonly messageService: MessageService) {}
-    
     @Get(':id')
     async getMessages(@Param('id', ParseIntPipe) id: number) {
         return this.messageService.getCampaignMessages(id);
     }
-
     @Get()
     async getAll() {
         return this.messageService.findAll();
     }
-
-
     @Post()
     createMessage(@Body() body: CreateMessageDto){
         return this.messageService.create(body);
@@ -31,5 +27,10 @@ export class MessageController {
     @Delete(':id')
     deleteMessage(@Param ('id',ParseIntPipe ) id: number){
         return  this.messageService.remove(id);
+    }
+
+    @Patch(':id/status')
+    updateStatus(@Param ('id',ParseIntPipe ) id: number){
+        return  this.messageService.updateOrdersByUserId(id);
     }
 }
