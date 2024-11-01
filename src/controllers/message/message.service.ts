@@ -90,7 +90,7 @@ export class MessageService {
     const updatedMessage = await this.messagesRepository.save(message);
 
     return {
-      message: 'User updated successfully',
+      message: '',
       statusCode: 200,
       aMessage: updatedMessage,
     };

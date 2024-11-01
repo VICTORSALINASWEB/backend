@@ -73,7 +73,7 @@ export class CampaignService {
   }
 
   async update(id: number, campaignData: UpdateCampaignDto){
-
+    
     const campaign = await this.campaignsRepository.findOne({ where: { id } });
     if (!campaign) {
         throw new NotFoundException(`No se encontró la campaña.`);
@@ -92,10 +92,10 @@ export class CampaignService {
     campaign.process_status = campaignData.process_status ?? campaign.process_status;
     campaign.phone_list = campaignData.phone_list ?? campaign.phone_list;
     campaign.message_text = campaignData.message_text ?? campaign.message_text;
-    const updatedCampaign = await this.userRepository.save(campaign);
+    const updatedCampaign = await this.campaignsRepository.save(campaign);
 
     return {
-      message: 'User updated successfully',
+      message: '',
       statusCode: 200,
       campaign: updatedCampaign,
     };

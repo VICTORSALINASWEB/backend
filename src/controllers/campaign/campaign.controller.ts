@@ -30,7 +30,8 @@ export class CampaignController {
  
   @Patch(':id')
   updateCampaign(@Param ('id',ParseIntPipe ) id: number,@Body() body: UpdateCampaignDto){
-      return this.campaignsService.update(id,body);
+    
+    return this.campaignsService.update(id,body);
   }
 
   @Delete(':id')

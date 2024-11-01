@@ -79,7 +79,7 @@ export class UserService {
         const updatedUser = await this.userRepository.save(user);
 
         return {
-            message: 'User updated successfully',
+            message: '',
             statusCode: 200,
             user: updatedUser,
         };
