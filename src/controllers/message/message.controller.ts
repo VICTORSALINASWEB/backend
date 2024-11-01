@@ -10,10 +10,6 @@ export class MessageController {
     async getMessages(@Param('id', ParseIntPipe) id: number) {
         return this.messageService.getCampaignMessages(id);
     }
-    @Get()
-    async getAll() {
-        return this.messageService.findAll();
-    }
     @Post()
     createMessage(@Body() body: CreateMessageDto){
         return this.messageService.create(body);
@@ -22,11 +18,6 @@ export class MessageController {
     @Patch(':id')
     updateMessage(@Param ('id',ParseIntPipe ) id: number,@Body() body: UpdateMessageDto){
         return this.messageService.update(id,body);
-    }
-
-    @Delete(':id')
-    deleteMessage(@Param ('id',ParseIntPipe ) id: number){
-        return  this.messageService.remove(id);
     }
 
     @Patch(':id/status')

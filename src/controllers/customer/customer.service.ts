@@ -33,29 +33,5 @@ export class CustomerService {
         return body;
       }
 
-      async create(customerData: CreateCustomerDto){
-        const customer =  await this.customerRepository.create(customerData);
-        const resp =  await this.customerRepository.save(customer);
-        
-        const body = {
-          message: '',
-          statusCode: 200,
-          customer: resp
-        }
-        return body;
-      }
-      
-      async update(id: number, customerData: CreateCustomerDto){
-        await this.customerRepository.update(id, customerData);
-        return this.findOne(id);
-      }
-    
-      async remove(id: number) {
-         await this.customerRepository.delete(id);
-        const body = {
-          message: '',
-          statusCode: 200
-        }
-        return body;
-      }
+
 }

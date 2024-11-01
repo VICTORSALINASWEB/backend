@@ -13,27 +13,5 @@ export class CustomerController {
         return  await this.customerService.findAll();
     }
     
-    @Get(':id')
-    async getUserById(@Param ('id',ParseIntPipe ) id: number) {
-     return  await this.customerService.findOne(id);
-       
-    }
-  
-    @Post()
-    async createUser(@Body() dataBody:CreateCustomerDto){
-      return  await this.customerService.create(dataBody);
 
-    }
-    
-    @Patch(':id')
-    async updateUser(@Param ('id',ParseIntPipe ) id: number,@Body() dataBody: UpdateCustomerDto){
-        return await this.customerService.update(id, dataBody);
-
-    }
-  
-    @Delete(':id')
-    async deleteUser(@Param ('id',ParseIntPipe ) id: number){
-       return this.customerService.remove(id);
-
-    }
 }
