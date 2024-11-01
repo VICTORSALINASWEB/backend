@@ -26,6 +26,17 @@ export class MessageService {
     return body;
   }
 
+  async findAll() {
+    const aMessages = await this.messagesRepository.find();
+
+    const body = {
+      message: '',
+      statusCode: 200,
+      aMessages
+    }
+    return body;
+  }
+
   async create(messageData: CreateMessageDto) {
     const campaign = await this.campaignsRepository.findOne({ where: { id: messageData.campaign_id } });
     if (!campaign) {

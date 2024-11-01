@@ -12,6 +12,12 @@ export class MessageController {
         return this.messageService.getCampaignMessages(id);
     }
 
+    @Get()
+    async getAll() {
+        return this.messageService.findAll();
+    }
+
+
     @Post()
     createMessage(@Body() body: CreateMessageDto){
         return this.messageService.create(body);
